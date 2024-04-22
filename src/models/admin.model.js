@@ -34,6 +34,11 @@ const adminSchema = new Schema(
       key: String,
       filename: String,
     },
+    role: {
+      type: mongoose.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
   },
   {
     timestamps: true,
