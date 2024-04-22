@@ -11,6 +11,7 @@ const { PORT } = require('./constants/env.constant');
 
   const { url } = await startStandaloneServer(apolloServer, {
     listen: { port: PORT },
+    context: async ({ req }) => ({ token: req.headers.authorization }),
   });
 
   // eslint-disable-next-line no-console
