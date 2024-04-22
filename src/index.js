@@ -13,5 +13,6 @@ const { PORT } = require('./constants/env.constant');
     listen: { port: PORT },
   });
 
+  // eslint-disable-next-line no-console
   console.log(`🚀 Server is ready at: ${url}`);
 })();

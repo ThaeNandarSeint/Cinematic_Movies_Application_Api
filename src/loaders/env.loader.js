@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const { ZodError } = require('zod');
 const { envSchema } = require('../schemas/env.schema');
 

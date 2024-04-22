@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const mongoose = require('mongoose');
 const { MONGODB_URL, DATABASE_NAME } = require('../constants/env.constant');
 
