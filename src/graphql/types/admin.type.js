@@ -24,14 +24,14 @@ const adminResponse = `#graphql
     }
 `;
 
-const getAdmins = `#graphql    
-    input getAdminsFilter {
+const getAllAdmins = `#graphql    
+    input getAllAdminsFilter {
         skip: Int, 
         limit: Int
         search: String
     }
     type Query {
-        getAdmins(filter: getAdminsFilter): Payload
+        getAllAdmins(filter: getAllAdminsFilter): Payload
     }
 `;
 
@@ -41,4 +41,4 @@ const getAdminById = `#graphql
     }
 `;
 
-module.exports = mergeType([admin, adminResponse, getAdmins, getAdminById]);
+module.exports = mergeType([admin, adminResponse, getAllAdmins, getAdminById]);
