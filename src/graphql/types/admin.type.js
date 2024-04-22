@@ -1,14 +1,14 @@
 const { mergeType } = require('@graphql-tools/merge');
 
-const user = `#graphql
+const admin = `#graphql
     type Avatar {
         url: String
         key: String
         filename: String
     }
-    type User {
+    type Admin {
         _id: String
-        userId: String
+        adminId: String
         name: String
         email: String
         password: String
@@ -17,28 +17,28 @@ const user = `#graphql
     }
 `;
 
-const userResponse = `#graphql
+const adminResponse = `#graphql
     type Payload {
         count: Int
-        users: [User]
+        admins: [Admin]
     }
 `;
 
-const getUsers = `#graphql    
-    input getUsersFilter {
+const getAdmins = `#graphql    
+    input getAdminsFilter {
         skip: Int, 
         limit: Int
         search: String
     }
     type Query {
-        getUsers(filter: getUsersFilter): Payload
+        getAdmins(filter: getAdminsFilter): Payload
     }
 `;
 
-const getUserById = `#graphql
+const getAdminById = `#graphql
     type Query {
-        getUserById(id: String): User
+        getAdminById(id: String): Admin
     }
 `;
 
-module.exports = mergeType([user, userResponse, getUsers, getUserById]);
+module.exports = mergeType([admin, adminResponse, getAdmins, getAdminById]);

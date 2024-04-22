@@ -76,17 +76,17 @@ const authenticate = async (bearerToken) => {
 
   const decoded = verifyToken(token);
 
-  const { userId } = decoded;
+  const { adminId } = decoded;
 
-  const userRepository = container.resolve('userRepository');
+  const adminRepository = container.resolve('adminRepository');
 
-  const user = await userRepository.getUserById(userId);
+  const admin = await adminRepository.getAdminById(adminId);
 
-  if (!user || !user.isActive) {
+  if (!admin || !admin.isActive) {
     sendFailedResponse(UNAUTHENTICATED);
   }
 
-  return { user };
+  return { admin };
 };
 
 module.exports = {

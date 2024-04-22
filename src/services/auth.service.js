@@ -1,57 +1,57 @@
 const {
+  ADMIN_ALREADY_EXIST,
+} = require('../constants/errors/admin.error.constant');
+const {
   WRONG_CREDENTIALS,
 } = require('../constants/errors/auth.error.constant');
 const { BAD_REQUEST } = require('../constants/errors/global.error.constant');
-const {
-  USER_ALREADY_EXIST,
-} = require('../constants/errors/user.error.constant');
 const { generateToken, verifyPassword } = require('../utils/auth.util');
 const { sendFailedResponse } = require('../utils/response.util');
 
-module.exports = ({ userRepository }) => {
+module.exports = ({ adminRepository }) => {
   const register = async (payload) => {
     const { email } = payload;
 
-    const existingUser = await userRepository.getUserByUniqueField(
+    const existingAdmin = await adminRepository.getAdminByUniqueField(
       'email',
       email
     );
 
-    if (existingUser) {
-      sendFailedResponse({ ...BAD_REQUEST, message: USER_ALREADY_EXIST });
+    if (existingAdmin) {
+      sendFailedResponse({ ...BAD_REQUEST, message: ADMIN_ALREADY_EXIST });
     }
 
-    const user = await userRepository.createUser(payload);
+    const admin = await adminRepository.createAdmin(payload);
 
-    const token = await generateToken({ userId: user._id });
+    const token = await generateToken({ adminId: admin._id });
 
-    return { user, token };
+    return { admin, token };
   };
 
   const login = async (payload) => {
     const { email, password } = payload;
 
-    const user = await userRepository.getUserByUniqueField(
+    const admin = await adminRepository.getAdminByUniqueField(
       'email',
       email,
       '+password'
     );
 
-    if (!user) {
+    if (!admin) {
       sendFailedResponse({ ...BAD_REQUEST, message: WRONG_CREDENTIALS });
     }
 
-    const isCorrectPassword = await verifyPassword(password, user.password);
+    const isCorrectPassword = await verifyPassword(password, admin.password);
 
     if (!isCorrectPassword) {
       sendFailedResponse({ ...BAD_REQUEST, message: WRONG_CREDENTIALS });
     }
 
-    user.password = undefined;
+    admin.password = undefined;
 
-    const token = await generateToken({ userId: user._id });
+    const token = await generateToken({ adminId: admin._id });
 
-    return { user, token };
+    return { admin, token };
   };
 
   return {

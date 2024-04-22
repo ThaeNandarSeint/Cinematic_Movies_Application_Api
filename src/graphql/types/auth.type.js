@@ -2,7 +2,7 @@ const { mergeType } = require('@graphql-tools/merge');
 
 const auth = `#graphql
     type authResponse {
-        user: User
+        admin: Admin
         token: String
     }
 `;

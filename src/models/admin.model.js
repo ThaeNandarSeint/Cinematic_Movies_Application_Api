@@ -4,9 +4,9 @@ const { createCustomId } = require('../helpers');
 
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema(
+const adminSchema = new Schema(
   {
-    userId: {
+    adminId: {
       type: String,
       required: true,
       unique: true,
@@ -46,29 +46,27 @@ const userSchema = new Schema(
   }
 );
 
-userSchema.pre(
+adminSchema.pre(
   'validate',
   createCustomId({
-    modelName: 'User',
-    prefix: 'U',
-    fieldName: 'userId',
+    modelName: 'Admin',
+    prefix: 'Admin',
+    fieldName: 'adminId',
   })
 );
 
-userSchema.pre('save', async function (next) {
+adminSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
 
   this.password = await bcrypt.hash(this.password, 12);
   next();
 });
 
-userSchema.pre('findOneAndUpdate', async function (next) {
+adminSchema.pre('findOneAndUpdate', async function (next) {
   if (!this.getUpdate().password) return next();
 
   this.getUpdate().password = await bcrypt.hash(this.getUpdate().password, 12);
   next();
 });
 
-const User = mongoose.model('User', userSchema, 'users');
-
-module.exports = User;
+module.exports = mongoose.model('Admin', adminSchema, 'admins');
